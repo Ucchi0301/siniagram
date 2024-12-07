@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}  <!-- staticタグをロード -->
+
+{% block content %}
+<!-- 画像を上下中央に配置 -->
+<div class="image-container">
+    <img src="{{ object.image.url }}" alt="Image" class="img-fluid">
+</div>
+
+<!-- 固定ボタン -->
+<div class="fixed-bottom mb-3">
+    <div class="text-content">
+        <p>
+            <span style="color: red;">{{ object.created_by.nickname }}</span> <span style="color: black;">さんが撮った</span><br>
+            <span style="color: red;">{{ object.description }}</span><br>
+            <span style="color: black;">の写真です！</span>
+        </p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn custom-btn">ここを押す！</button>
+    </form>
+</div>
+
+<!-- 静的CSSの読み込み -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% endblock content %}

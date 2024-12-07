@@ -1,0 +1,54 @@
+/* 画像を上下中央に配置 */
+.image-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center; /* 水平方向に中央揃え */
+    justify-content: center;
+    -webkit-align-items: center; /* 垂直方向に中央揃え */
+    align-items: center;
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+}
+
+
+img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+/* ボタンが画面下部に固定 */
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100; /* 画像の上に表示されるように */
+}
+
+.custom-btn {
+    width: 100%;
+    height: 130px;
+    font-size: 50px;
+    background-color: red; /* 背景色を赤に */
+    border: 7px solid yellow; /* ボーダーを黄色に */
+    color: white; /* ボタンの文字色を白に */
+    font-weight: bold; /* フォントを太くする */
+}
+
+.text-content {
+    width: 100%;
+    height: 200px;
+    font-size: 30px;
+    background-color: rgb(241, 241, 241); /* 背景色 */
+    border: 7px solid black; /* ボーダー */
+    color: black; /* 文字色 */
+    font-weight: bold; /* フォントを太くする */
+    text-align: center; /* 横方向の中央揃え */
+    display: flex; /* Flexbox を使用 */
+    justify-content: center; /* 横方向に中央揃え */
+    align-items: center; /* 縦方向に中央揃え */
+    padding: 10px; /* パディングが不要な場合はリセット */
+}
