@@ -1,15 +1,18 @@
 from pathlib import Path
 import os  # 追加
 from django.contrib.messages import constants as messages
-
+import environ
+from decouple import config
+from dj_database_url import parse as dburl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, ".env"))
+
+SECRET_KEY = env('SECRET_KEY')
 
 
-SECRET_KEY = 'django-insecure-$pc_qlf+l6-m^#d6jh8-t^y+*e21(na@26l_a2gjt2*g-=8ug_'
-
-
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['192.168.3.14', 'localhost', '127.0.0.1','469f-2400-2410-3ac1-4000-4198-dae1-fde7-5719.ngrok-free.app']
 
@@ -45,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -74,13 +78,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+DATABASES = {
+    'default': config(
+        "DATABASE_URL" , default = default_dburl, cast=dburl
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
