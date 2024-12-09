@@ -4,17 +4,18 @@ from django.contrib.messages import constants as messages
 import environ
 from decouple import config
 from dj_database_url import parse as dburl
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-$pc_qlf+l6-m^#d6jh8-t^y+*e21(na@26l_a2gjt2*g-=8ug_'
 
 
-DEBUG = env('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.3.14', 'localhost', '127.0.0.1','469f-2400-2410-3ac1-4000-4198-dae1-fde7-5719.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,9 +34,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'pwa',
+    'corsheaders',
+    "crispy_forms",
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/siniagram/home/1'
+LOGIN_REDIRECT_URL = '/siniagram/all_post/'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
@@ -48,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -78,19 +83,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
-    'default': config(
-        "DATABASE_URL" , default = default_dburl, cast=dburl
-    ),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -125,16 +124,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'), 
     os.path.join(BASE_DIR, 'static/css'),
-    BASE_DIR
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-IMAGE_URL = '/images/'
-IMAGE_ROOT = os.path.join(BASE_DIR, 'images')
 
 # メッセージタグの設定
 MESSAGE_TAGS = {
@@ -159,5 +155,11 @@ ACCOUNT_ADAPTER = 'snsapp.adapter.AccountAdapter'
 
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/serviceworker.js')
 CSRF_TRUSTED_ORIGINS = [
-    'https://469f-2400-2410-3ac1-4000-4198-dae1-fde7-5719.ngrok-free.app',
+    'https://enabled-sailfish-jointly.ngrok-free.app',
+    'https://40f2-2400-2410-3ac1-4000-abb-36d7-edf5-56f8.ngrok-free.app',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://enabled-sailfish-jointly.ngrok-free.app",
+    'https://40f2-2400-2410-3ac1-4000-abb-36d7-edf5-56f8.ngrok-free.app',
 ]

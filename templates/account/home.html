@@ -4,16 +4,16 @@
 
 {% block content %}
 <!-- 画像を上下中央に配置 -->
-<div class="image-container">
-    <img src="{{ object.image.url }}" alt="Image" class="img-fluid">
-</div>
-
 <!-- 固定ボタン -->
-<div class="fixed-bottom mb-3">
-    <div class="text-content">
+<div class="fixed-bottom mb-3" id="zoom-disabled">
+    <div class="image-container">
+        <img src="{{ object.image.url }}" alt="Image" class="img-fluid">
+    </div>
+    
+    <div class="text-content" id="zoom-disabled">
         <p>
             <span style="color: red;">{{ object.created_by.nickname }}</span> <span style="color: black;">さんが撮った</span><br>
-            <span style="color: red;">{{ object.description }}</span><br>
+            <span style="color: red;">{{ object.title }}</span><br>
             <span style="color: black;">の写真です！</span>
         </p>
     </div>
@@ -23,7 +23,49 @@
     </form>
 </div>
 
-<!-- 静的CSSの読み込み -->
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+
+<!-- ズーム無効化用のmetaタグ追加 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- このページ専用のCSSファイルを読み込む -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock content %}
+
+<script>
+// 画像ズーム防止のスクリプト
+document.querySelector('img').addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();  // ピンチ操作を防ぐ
+    }
+}, { passive: false });
+
+document.querySelector('img').addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();  // ピンチ操作を防ぐ
+    }
+}, { passive: false });
+
+// 固定ボタンのズーム防止
+document.getElementById('zoom-disabled').addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();  // ピンチ操作を防ぐ
+    }
+}, { passive: false });
+
+document.getElementById('zoom-disabled').addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();  // ピンチ操作を防ぐ
+    }
+}, { passive: false });
+
+// 画像長押し無効
+document.querySelector('img').addEventListener('touchstart', function(e) {
+    e.preventDefault();  // 長押しによる画像操作を無効化
+});
+
+// 画像右クリックメニュー無効
+document.querySelector('img').addEventListener('contextmenu', function(e) {
+    e.preventDefault();  // 右クリックメニューを無効化
+});
+</script>

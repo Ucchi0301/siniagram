@@ -1,0 +1,7 @@
+{% extends 'list_base.html' %}
+
+{% block content %}
+    {% with show_delete=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}

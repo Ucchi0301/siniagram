@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-9">
+            {% for item in object_list %}
+            <div class="item">
+                <!-- ツイートのヘッダー -->
+                <div class="tweet-header d-flex align-items-center">
+                    <div class="image-container" id="user-picture">
+                        <img src="{% if item.created_by.avatar %}{{ item.created_by.avatar.url }}{% else %}{% static '/icon/small.png' %}{% endif %}"
+                             alt="Avatar"
+                             class="img-fluid rounded-circle profile-image">
+                    </div>
+                    <div class="ml-2 user-name">
+                        <strong>{{ item.created_by.nickname }}</strong>
+                        <div>
+                            <p>{{ item.created_at }}</p>
+                        </div>
+                    </div>  
+                </div>
+                    <!-- ツイートの内容 -->
+                    <div class="tweet-content mt-2">
+                        <p>{{ item.title }}</p>
+                    </div>
+    
+                    <!-- メイン画像の表示 -->
+                    <div class="image-container" id="main-image">
+                        <img src="{{ item.image.url }}" alt="Image" class="img-fluid content-image">
+                    </div>
+            </div>
+
+
+
+                <!-- 削除ボタン（条件付き） -->
+                {% if show_delete %}
+                <button class="btn btn-danger mt-2" data-toggle="modal" data-target="#deleteModal{{ item.id }}">削除</button>
+
+                <!-- 削除確認モーダル -->
+                <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ item.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ item.id }}">削除確認</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                本当にこの投稿を削除しますか？
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'snsapp:delete_content' item.pk %}">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">いいえ</button>
+                                    <button type="submit" class="btn btn-danger">はい</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>投稿してみましょう！</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- list.css の読み込み -->
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}

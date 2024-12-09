@@ -1,0 +1,40 @@
+/* .itemのスタイル */
+.item {
+    border-top: 1px solid rgb(209, 209, 209);
+    padding: 10px;
+    max-width: 100%;
+}
+
+/* プロフィール画像のスタイル */
+.profile-image {
+    max-width: 60px; /* 必要に応じてサイズを調整 */
+    margin-left: 10px;
+}
+
+/* ツイート画像のスタイル（アスペクト比を保持） */
+.content-image {
+    width: 100%;
+    max-height: auto; /* アスペクト比を保ちながら高さを調整 */
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+/* ツイート内容のフォントサイズとマージン */
+.tweet-content {
+    font-size: 20px;
+    margin-left: 20px; /* 画像の横に内容が来るように調整 */
+}
+
+/* ユーザー名のフォントサイズ */
+.user-name {
+    font-size: 20px;
+    padding-top: 20px;
+    flex-direction: column; 
+}
+
+/* ツイートヘッダーのスタイル */
+.tweet-header {
+    display: flex; /* 横並びにする */
+    align-items: flex-start; /* 上寄せにする */
+    margin-top: 5px;
+}

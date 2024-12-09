@@ -5,19 +5,15 @@ from . import settings
 from django.shortcuts import redirect
 
 
-def redirect_to_home(request):
-    return redirect('/siniagram/home/1/')
-
-
 urlpatterns = [
-    path('', redirect_to_home),
+    path('', include('snsapp.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls'), name="accounts"),
     path('siniagram/', include('snsapp.urls')),
     path('', include('pwa.urls')),
+    
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)  # 追加
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     

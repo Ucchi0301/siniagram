@@ -1,0 +1,16 @@
+<!-- content_confirm_delete.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3>本当にこの投稿を削除しますか？</h3>
+    <div>
+        <p><strong>{{ object.title }}</strong></p>
+        <img src="{{ object.image.url }}" alt="Image" class="img-fluid">
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">削除する</button>
+        <a href="{% url 'content_list' %}" class="btn btn-secondary">キャンセル</a>
+    </form>
+</div>
+{% endblock %}

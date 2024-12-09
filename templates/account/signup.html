@@ -4,13 +4,19 @@
         <div class="col-sm-6 offset-sm-3">
             <h1 class="mb-4">ユーザー登録</h1>
             {#  ここ{% url 'account_signup' %}は、Allauthを使う際の定型文#}
-            <form method="POST" action="{% url 'account_signup' %}">
+            <form method="POST" action="{% url 'account_signup' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <button type="submit" class="btn btn-primary" name="button">
+                <button type="submit" class="btn btn-primary w-100 mb-2" name="button">
                     登録
                 </button>
             </form>
+
+            <div class="text-center mt-3">
+                <a class="btn btn-link" href="{% url 'account_login' %}">
+                    ログインページへ
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}
